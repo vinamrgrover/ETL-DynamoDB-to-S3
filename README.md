@@ -1,12 +1,17 @@
 # Batch ETL Pipeline - NoSQL
 
+## Architecture Diagram
+
+![NoSQL_ETL drawio](https://github.com/vinamrgrover/ETL-DynamoDB-to-S3/assets/100070155/66479527-05e8-40e6-9325-0783b9d40359)
+
+
 ## Description
 
 This project is based on a Batch ETL Pipeline built on AWS
 
-+ First, the Data is extracted using Lambda Function ***(API_Extract)*** from  a Mock Data API
++ First, the Data is extracted using Lambda Function ***(API_Extract.py)*** from  a Mock Data API
 + The Data is then transformed using Pandas and loaded into a DynamoDB Table
-+ A Glue ETL Job is set up to crawl the Data from DynamoDB Table apply necessary filter transformations and write the Data to an S3 Bucket as Parquet file with appropriate Partitions
++ A Glue ETL Job ***(DynamoDB_to_S3.py)*** is set up to crawl the Data from DynamoDB Table apply necessary filter transformations and write the Data to an S3 Bucket as Parquet file with appropriate Partitions
 + The ETL Pipeline runs every hour and this process is automated by a CloudWatch Event Rule
 
 **Note : A Mock Data API is required to perform this project. 
@@ -46,7 +51,7 @@ Here's the Cron Expression that triggers the Lambda Function every hour -  ```0 
 
 ## Incremental ETL
 
-The ```check_datetime()``` function of the Glue ETL Job's Script, is used to Filter out the most recent rows in the DynamicFrame. 
+The ```check_datetime()``` function of the Glue ETL Job's Script *(DynamoDB_to_S3.py)*, is used to Filter out the most recent rows in the DynamicFrame. 
 
 This function compares the current day, month, year and hour to the DynamicFrame's **created_at** column and filters out the rows that are updated in the current hour.
 
